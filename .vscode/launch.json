@@ -5,20 +5,22 @@
       "name": "C/C++ Runner: Debug Session",
       "type": "cppdbg",
       "request": "launch",
+      "program": "${workspaceFolder}/../crypto_alog_engine_build/crypto_alog_engine_debug/bin/tcp",
       "args": [],
       "stopAtEntry": false,
+      "cwd": "${workspaceFolder}",
+      "environment": [],
       "externalConsole": false,
-      "cwd": "/home/davidau/crypto_alog_engine/net/tcp/src",
-      "program": "/home/davidau/crypto_alog_engine/net/tcp/src/build/Debug/outDebug",
       "MIMode": "gdb",
-      "miDebuggerPath": "gdb",
       "setupCommands": [
         {
           "description": "Enable pretty-printing for gdb",
           "text": "-enable-pretty-printing",
           "ignoreFailures": true
         }
-      ]
+      ],
+      "preLaunchTask": "make",
+      "miDebuggerPath": "/usr/bin/gdb"
     }
   ]
 }
