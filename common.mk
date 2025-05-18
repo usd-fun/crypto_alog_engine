@@ -103,7 +103,7 @@ endif
 endif
 endif
 ifeq ($(STD),)
-	STD:=c++17
+	STD:=c++20
 endif
 #can set in $(MAKE_NAME), otherwise using default end
 

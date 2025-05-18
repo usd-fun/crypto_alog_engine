@@ -15,8 +15,7 @@ using pybind11::memory::smart_holder;
 
 PYBIND11_NAMESPACE_BEGIN(detail)
 
-template <typename H>
-using is_smart_holder = std::is_same<H, smart_holder>;
+template <typename H> using is_smart_holder = std::is_same<H, smart_holder>;
 
 PYBIND11_NAMESPACE_END(detail)
 PYBIND11_NAMESPACE_END(PYBIND11_NAMESPACE)

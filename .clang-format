@@ -1,0 +1,6 @@
+BasedOnStyle: LLVM
+UseTab: ForIndentation
+IndentWidth: 4
+TabWidth: 4
+BreakBeforeBraces: Allman
+NamespaceIndentation : All

@@ -13,6 +13,8 @@ apt -y install make
 apt -y install git
 apt -y install pkg-config
 apt -y install python3-dev
+apt -y install libssl-dev
+apt -y install clang-format
 ```
 
 ## Compatibility

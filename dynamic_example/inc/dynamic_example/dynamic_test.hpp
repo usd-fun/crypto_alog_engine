@@ -5,11 +5,12 @@ namespace make_test
 {
 	class dynamic_test : public static_test
 	{
-	public:
+	  public:
 		dynamic_test() = default;
 		virtual ~dynamic_test() = default;
-	public:
+
+	  public:
 		virtual void print();
 	};
-}
+} // namespace make_test
 #endif //__MAKE_TEST_DYNAMIC_TEST__

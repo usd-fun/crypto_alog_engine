@@ -3,9 +3,4 @@
 
 using namespace make_test;
 
-void dynamic_test::print()
-{
-	std::cout << "dynamic_test" << std::endl;
-}
-
-
+void dynamic_test::print() { std::cout << "dynamic_test" << std::endl; }

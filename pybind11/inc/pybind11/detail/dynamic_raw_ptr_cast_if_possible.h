@@ -12,27 +12,32 @@ PYBIND11_NAMESPACE_BEGIN(PYBIND11_NAMESPACE)
 PYBIND11_NAMESPACE_BEGIN(detail)
 
 template <typename To, typename From, typename SFINAE = void>
-struct dynamic_raw_ptr_cast_is_possible : std::false_type {};
+struct dynamic_raw_ptr_cast_is_possible : std::false_type
+{
+};
 
 template <typename To, typename From>
 struct dynamic_raw_ptr_cast_is_possible<
-    To,
-    From,
-    detail::enable_if_t<!std::is_same<To, void>::value && std::is_polymorphic<From>::value>>
-    : std::true_type {};
+    To, From,
+    detail::enable_if_t<!std::is_same<To, void>::value &&
+                        std::is_polymorphic<From>::value>> : std::true_type
+{
+};
 
-template <typename To,
-          typename From,
-          detail::enable_if_t<!dynamic_raw_ptr_cast_is_possible<To, From>::value, int> = 0>
-To *dynamic_raw_ptr_cast_if_possible(From * /*ptr*/) {
-    return nullptr;
+template <typename To, typename From,
+          detail::enable_if_t<
+              !dynamic_raw_ptr_cast_is_possible<To, From>::value, int> = 0>
+To *dynamic_raw_ptr_cast_if_possible(From * /*ptr*/)
+{
+	return nullptr;
 }
 
-template <typename To,
-          typename From,
-          detail::enable_if_t<dynamic_raw_ptr_cast_is_possible<To, From>::value, int> = 0>
-To *dynamic_raw_ptr_cast_if_possible(From *ptr) {
-    return dynamic_cast<To *>(ptr);
+template <typename To, typename From,
+          detail::enable_if_t<dynamic_raw_ptr_cast_is_possible<To, From>::value,
+                              int> = 0>
+To *dynamic_raw_ptr_cast_if_possible(From *ptr)
+{
+	return dynamic_cast<To *>(ptr);
 }
 
 PYBIND11_NAMESPACE_END(detail)
