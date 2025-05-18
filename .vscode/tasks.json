@@ -10,8 +10,21 @@
         "kind": "build",
         "isDefault": true
       },
-      "problemMatcher": ["$gcc"],
+      "problemMatcher": [
+        "$gcc"
+      ],
       "detail": "Build the project using make"
+    },
+    {
+      "label": "Bear Compile Commands",
+      "type": "shell",
+      "command": "BEAR_STDOUT_CAPTURE=1 bear -- make clean all",
+      "args": [],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "problemMatcher": [],
+      "group": "build"
     }
   ]
 }

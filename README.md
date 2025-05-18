@@ -15,6 +15,8 @@ apt -y install pkg-config
 apt -y install python3-dev
 apt -y install libssl-dev
 apt -y install clang-format
+apt -y install bear
+snap install --classic clangd
 ```
 
 ## Compatibility

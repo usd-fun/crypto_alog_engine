@@ -6,6 +6,20 @@
   "C_Cpp_Runner.cppStandard": "",
   "C_Cpp_Runner.msvcBatchPath": "",
   "C_Cpp_Runner.useMsvc": false,
+  "C_Cpp.default.compileCommands": "${workspaceFolder}/compile_commands.json",
+  "C_Cpp.intelliSenseEngine": "disabled",
+  "clangd.path": "/snap/bin/clangd",
+  "clangd.arguments": [
+    "--compile-commands-dir=${workspaceFolder}"
+  ],
+  "editor.semanticHighlighting.enabled": true,
+  "clangd.fallbackFlags": [
+    "-std=c++11",
+    "-std=c++14",
+    "-std=c++17",
+    "-std=c++20"
+  ],
+  "C_Cpp.autocomplete": "disabled",
   "C_Cpp_Runner.warnings": [
     "-Wall",
     "-Wextra",
