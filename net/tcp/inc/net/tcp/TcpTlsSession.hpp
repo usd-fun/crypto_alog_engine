@@ -2,9 +2,9 @@
 #define NET_TCP_TCP_TLS_CLIENT_H
 
 #include <arpa/inet.h>
-#include <concepts>
 #include <cstdlib>
 #include <cstring>
+#include <encrypt/OpenSSLIInitializer.hpp>
 #include <limits>
 #include <net/buffer_container.hpp>
 #include <net/error.hpp>

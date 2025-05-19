@@ -1,4 +1,4 @@
 TYPE:=EXE
-DEPS:=net
+DEPS:=net encrypt
 DEP_PKGS:=openssl
 include $(PROJECT_HOME)/common.mk
