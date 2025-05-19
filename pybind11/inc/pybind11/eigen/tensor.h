@@ -616,11 +616,11 @@ struct type_caster<Eigen::TensorMap<Type, Options>,
 	static constexpr bool needs_writeable = !std::is_const<Type>::value;
 #endif
 
-  protected:
+protected:
 	// TODO: Move to std::optional once std::optional has more support
 	std::unique_ptr<MapType> value;
 
-  public:
+public:
 	// return_descr forces the use of NDArray instead of ArrayLike since refs
 	// can only reference arrays
 	static constexpr auto name =

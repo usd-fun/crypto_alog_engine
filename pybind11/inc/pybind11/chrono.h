@@ -24,7 +24,7 @@ PYBIND11_NAMESPACE_BEGIN(detail)
 
 template <typename type> class duration_caster
 {
-  public:
+public:
 	using rep = typename type::rep;
 	using period = typename type::period;
 
@@ -135,7 +135,7 @@ inline std::tm *localtime_thread_safe(const std::time_t *time, std::tm *buf)
 template <typename Duration>
 class type_caster<std::chrono::time_point<std::chrono::system_clock, Duration>>
 {
-  public:
+public:
 	using type = std::chrono::time_point<std::chrono::system_clock, Duration>;
 	bool load(handle src, bool)
 	{

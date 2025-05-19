@@ -15,7 +15,7 @@ PYBIND11_NAMESPACE_BEGIN(PYBIND11_NAMESPACE)
 
 class options
 {
-  public:
+public:
 	// Default RAII constructor, which leaves settings as they currently are.
 	options() : previous_state(global_state()) {}
 
@@ -84,7 +84,7 @@ class options
 	// This type is not meant to be allocated on the heap.
 	void *operator new(size_t) = delete;
 
-  private:
+private:
 	struct state
 	{
 		bool show_user_defined_docstrings =

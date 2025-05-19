@@ -63,10 +63,10 @@ cast_op(make_caster<T> &&caster)
 
 template <typename EnumType> class type_caster_enum_type
 {
-  private:
+private:
 	using Underlying = typename std::underlying_type<EnumType>::type;
 
-  public:
+public:
 	static constexpr auto name = const_name<EnumType>();
 
 	template <typename SrcType>
@@ -133,7 +133,7 @@ template <typename EnumType> class type_caster_enum_type
 		return pybind11_enum_->operator EnumType &();
 	}
 
-  private:
+private:
 	std::unique_ptr<type_caster_base<EnumType>> pybind11_enum_;
 	EnumType value;
 };
@@ -182,7 +182,7 @@ bool isinstance_native_enum(handle obj, const std::type_info &tp)
 
 template <typename type> class type_caster<std::reference_wrapper<type>>
 {
-  private:
+private:
 	using caster_t = make_caster<type>;
 	caster_t subcaster;
 	using reference_t = type &;
@@ -196,7 +196,7 @@ template <typename type> class type_caster<std::reference_wrapper<type>>
 	    "std::reference_wrapper<T> caster requires T to have a caster with an "
 	    "`operator T &()` or `operator const T &()`");
 
-  public:
+public:
 	bool load(handle src, bool convert) { return subcaster.load(src, convert); }
 	static constexpr auto name = caster_t::name;
 	static handle cast(const std::reference_wrapper<type> &src,
@@ -219,10 +219,10 @@ template <typename type> class type_caster<std::reference_wrapper<type>>
 };
 
 #define PYBIND11_TYPE_CASTER(type, py_name)                                    \
-  protected:                                                                   \
+protected:                                                                     \
 	type value;                                                                \
                                                                                \
-  public:                                                                      \
+public:                                                                        \
 	static constexpr auto name = py_name;                                      \
 	template <                                                                 \
 	    typename T_,                                                           \
@@ -281,7 +281,7 @@ struct type_caster<
 	using py_type =
 	    conditional_t<std::is_floating_point<T>::value, double, _py_type_1>;
 
-  public:
+public:
 	bool load(handle src, bool convert)
 	{
 		py_type py_value;
@@ -431,7 +431,7 @@ struct type_caster<
 
 template <typename T> struct void_caster
 {
-  public:
+public:
 	bool load(handle src, bool)
 	{
 		if (src && src.is_none())
@@ -453,7 +453,7 @@ template <> class type_caster<void_type> : public void_caster<void_type>
 
 template <> class type_caster<void> : public type_caster<void_type>
 {
-  public:
+public:
 	using type_caster<void_type>::cast;
 
 	bool load(handle h, bool)
@@ -504,7 +504,7 @@ template <> class type_caster<void> : public type_caster<void_type>
 	explicit operator void *&() { return value; }
 	static constexpr auto name = const_name("types.CapsuleType");
 
-  private:
+private:
 	void *value = nullptr;
 };
 
@@ -515,7 +515,7 @@ class type_caster<std::nullptr_t> : public void_caster<std::nullptr_t>
 
 template <> class type_caster<bool>
 {
-  public:
+public:
 	bool load(handle src, bool convert)
 	{
 		if (!src)
@@ -576,7 +576,7 @@ template <> class type_caster<bool>
 	}
 	PYBIND11_TYPE_CASTER(bool, const_name("bool"));
 
-  private:
+private:
 	// Test if an object is a NumPy boolean (without fetching the type).
 	static inline bool is_numpy_bool(handle object)
 	{
@@ -688,7 +688,7 @@ template <typename StringType, bool IsView = false> struct string_caster
 
 	PYBIND11_TYPE_CASTER(StringType, const_name(PYBIND11_STRING_NAME));
 
-  private:
+private:
 	static handle decode_utfN(const char *buffer, ssize_t nbytes)
 	{
 #if !defined(PYPY_VERSION)
@@ -778,7 +778,7 @@ struct type_caster<CharT, enable_if_t<is_std_char_type<CharT>::value>>
 	bool none = false;
 	CharT one_char = 0;
 
-  public:
+public:
 	bool load(handle src, bool convert)
 	{
 		if (!src)
@@ -911,7 +911,7 @@ template <template <typename...> class Tuple, typename... Ts> class tuple_caster
 	static constexpr auto size = sizeof...(Ts);
 	using indices = make_index_sequence<size>;
 
-  public:
+public:
 	bool load(handle src, bool convert)
 	{
 		if (!isinstance<sequence>(src))
@@ -961,7 +961,7 @@ template <template <typename...> class Tuple, typename... Ts> class tuple_caster
 		return std::move(*this).implicit_cast(indices{});
 	}
 
-  protected:
+protected:
 	template <size_t... Is> type implicit_cast(index_sequence<Is...>) &
 	{
 		return type(cast_op<Ts>(std::get<Is>(subcasters))...);
@@ -1038,7 +1038,7 @@ class type_caster<std::tuple<Ts...>> : public tuple_caster<std::tuple, Ts...>
 
 template <> class type_caster<std::tuple<>> : public tuple_caster<std::tuple>
 {
-  public:
+public:
 	// PEP 484 specifies this syntax for an empty tuple
 	static constexpr auto name = const_name("tuple[()]");
 };
@@ -1061,7 +1061,7 @@ template <typename T> struct holder_helper
 template <typename type, typename holder_type, typename SFINAE = void>
 struct copyable_holder_caster : public type_caster_base<type>
 {
-  public:
+public:
 	using base = type_caster_base<type>;
 	static_assert(std::is_base_of<base, type_caster<type>>::value,
 	              "Holder classes are only supported for custom types");
@@ -1089,7 +1089,7 @@ struct copyable_holder_caster : public type_caster_base<type>
 		return type_caster_base<type>::cast_holder(ptr, &src);
 	}
 
-  protected:
+protected:
 	friend class type_caster_generic;
 	void check_holder_compat()
 	{
@@ -1169,7 +1169,7 @@ struct copyable_holder_caster<
         copyable_holder_caster_shared_ptr_with_smart_holder_support_enabled<
             type>::value>> : public type_caster_base<type>
 {
-  public:
+public:
 	using base = type_caster_base<type>;
 	static_assert(std::is_base_of<base, type_caster<type>>::value,
 	              "Holder classes are only supported for custom types");
@@ -1256,7 +1256,7 @@ struct copyable_holder_caster<
 		                                                responsible_parent);
 	}
 
-  protected:
+protected:
 	friend class type_caster_generic;
 	void check_holder_compat()
 	{
@@ -1439,7 +1439,7 @@ struct move_only_holder_caster<
         move_only_holder_caster_unique_ptr_with_smart_holder_support_enabled<
             type>::value>> : public type_caster_base<type>
 {
-  public:
+public:
 	using base = type_caster_base<type>;
 	static_assert(std::is_base_of<base, type_caster<type>>::value,
 	              "Holder classes are only supported for custom types");
@@ -2348,7 +2348,7 @@ struct arg
 /// Annotation for arguments with values
 struct arg_v : arg
 {
-  private:
+private:
 	template <typename T>
 	arg_v(arg &&base, T &&x, const char *descr = nullptr)
 	    : arg(base),
@@ -2369,7 +2369,7 @@ struct arg_v : arg
 		}
 	}
 
-  public:
+public:
 	/// Direct construction with name, default, and description
 	template <typename T>
 	arg_v(const char *name, T &&x, const char *descr = nullptr)
@@ -2515,7 +2515,7 @@ template <typename... Args> class argument_loader
 	    kwargs_pos == -1 || kwargs_pos == (int)sizeof...(Args) - 1,
 	    "py::kwargs is only permitted as the last argument of a function");
 
-  public:
+public:
 	static constexpr bool has_kwargs = kwargs_pos != -1;
 
 	// py::args argument position; -1 if not present.
@@ -2549,7 +2549,7 @@ template <typename... Args> class argument_loader
 		return void_type();
 	}
 
-  private:
+private:
 	static bool load_impl_sequence(function_call &, index_sequence<>)
 	{
 		return true;
@@ -2592,7 +2592,7 @@ template <typename... Args> class argument_loader
 /// optimal for simple calls.
 template <return_value_policy policy> class simple_collector
 {
-  public:
+public:
 	template <typename... Ts>
 	explicit simple_collector(Ts &&...values)
 	    : m_args(pybind11::make_tuple<policy>(std::forward<Ts>(values)...))
@@ -2615,7 +2615,7 @@ template <return_value_policy policy> class simple_collector
 		return reinterpret_steal<object>(result);
 	}
 
-  private:
+private:
 	tuple m_args;
 };
 
@@ -2623,7 +2623,7 @@ template <return_value_policy policy> class simple_collector
 /// Python function call
 template <return_value_policy policy> class unpacking_collector
 {
-  public:
+public:
 	template <typename... Ts> explicit unpacking_collector(Ts &&...values)
 	{
 		// Tuples aren't (easily) resizable so a list is needed for collection,
@@ -2652,7 +2652,7 @@ template <return_value_policy policy> class unpacking_collector
 		return reinterpret_steal<object>(result);
 	}
 
-  private:
+private:
 	template <typename T> void process(list &args_list, T &&x)
 	{
 		auto o = reinterpret_steal<object>(
@@ -2755,7 +2755,7 @@ template <return_value_policy policy> class unpacking_collector
 		                 "'");
 	}
 
-  private:
+private:
 	tuple m_args;
 	dict m_kwargs;
 };

@@ -1,4 +1,5 @@
 BasedOnStyle: LLVM
+AccessModifierOffset: -4
 UseTab: ForIndentation
 IndentWidth: 4
 TabWidth: 4

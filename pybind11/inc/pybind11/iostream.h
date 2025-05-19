@@ -38,7 +38,7 @@ PYBIND11_NAMESPACE_BEGIN(detail)
 // Buffer that writes to Python instead of C++
 class pythonbuf : public std::streambuf
 {
-  private:
+private:
 	using traits_type = std::streambuf::traits_type;
 
 	const size_t buf_size;
@@ -136,7 +136,7 @@ class pythonbuf : public std::streambuf
 
 	int sync() override { return _sync(); }
 
-  public:
+public:
 	explicit pythonbuf(const object &pyostream, size_t buffer_size = 1024)
 	    : buf_size(buffer_size), d_buffer(new char[buf_size]),
 	      pywrite(pyostream.attr("write")), pyflush(pyostream.attr("flush"))
@@ -179,12 +179,12 @@ PYBIND11_NAMESPACE_END(detail)
  \endrst */
 class scoped_ostream_redirect
 {
-  protected:
+protected:
 	std::streambuf *old;
 	std::ostream &costream;
 	detail::pythonbuf buffer;
 
-  public:
+public:
 	explicit scoped_ostream_redirect(
 	    std::ostream &costream = std::cout,
 	    const object &pyostream = module_::import("sys").attr("stdout"))
@@ -215,7 +215,7 @@ class scoped_ostream_redirect
 \endrst */
 class scoped_estream_redirect : public scoped_ostream_redirect
 {
-  public:
+public:
 	explicit scoped_estream_redirect(
 	    std::ostream &costream = std::cerr,
 	    const object &pyostream = module_::import("sys").attr("stderr"))
@@ -234,7 +234,7 @@ class OstreamRedirect
 	std::unique_ptr<scoped_ostream_redirect> redirect_stdout;
 	std::unique_ptr<scoped_estream_redirect> redirect_stderr;
 
-  public:
+public:
 	explicit OstreamRedirect(bool do_stdout = true, bool do_stderr = true)
 	    : do_stdout_(do_stdout), do_stderr_(do_stderr)
 	{

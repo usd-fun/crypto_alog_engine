@@ -50,7 +50,7 @@ struct is_fmt_numeric<std::complex<T>,
 
 template <typename T> class type_caster<std::complex<T>>
 {
-  public:
+public:
 	bool load(handle src, bool convert)
 	{
 		if (!src)

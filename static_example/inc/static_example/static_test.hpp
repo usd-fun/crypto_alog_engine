@@ -4,11 +4,11 @@ namespace make_test
 {
 	class static_test
 	{
-	  public:
+	public:
 		static_test() = default;
 		virtual ~static_test() = default;
 
-	  public:
+	public:
 		virtual void print();
 	};
 } // namespace make_test

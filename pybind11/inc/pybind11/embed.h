@@ -324,7 +324,7 @@ inline void finalize_interpreter()
  \endrst */
 class scoped_interpreter
 {
-  public:
+public:
 	explicit scoped_interpreter(bool init_signal_handlers = true, int argc = 0,
 	                            const char *const *argv = nullptr,
 	                            bool add_program_dir_to_path = true)
@@ -358,7 +358,7 @@ class scoped_interpreter
 		}
 	}
 
-  private:
+private:
 	bool is_valid = true;
 };
 

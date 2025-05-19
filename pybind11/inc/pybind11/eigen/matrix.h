@@ -419,7 +419,7 @@ struct type_caster<Type, enable_if_t<is_eigen_dense_plain<Type>::value>>
 		return true;
 	}
 
-  private:
+private:
 	// Cast implementation
 	template <typename CType>
 	static handle cast_impl(CType *src, return_value_policy policy,
@@ -445,7 +445,7 @@ struct type_caster<Type, enable_if_t<is_eigen_dense_plain<Type>::value>>
 		};
 	}
 
-  public:
+public:
 	// Normal returned non-reference, non-const value:
 	static handle cast(Type &&src, return_value_policy /* policy */,
 	                   handle parent)
@@ -501,7 +501,7 @@ struct type_caster<Type, enable_if_t<is_eigen_dense_plain<Type>::value>>
 	operator Type &&() && { return std::move(value); }
 	template <typename T> using cast_op_type = movable_cast_op_type<T>;
 
-  private:
+private:
 	Type value;
 };
 
@@ -511,10 +511,10 @@ template <typename MapType> struct eigen_map_caster
 	static_assert(!std::is_pointer<typename MapType::Scalar>::value,
 	              PYBIND11_EIGEN_MESSAGE_POINTER_TYPES_ARE_NOT_SUPPORTED);
 
-  private:
+private:
 	using props = EigenProps<MapType>;
 
-  public:
+public:
 	// Directly referencing a ref/map's data is a bit dangerous (whatever the
 	// map/ref points to has to stay around), but we'll allow it under the
 	// assumption that you know what you're doing (and have an appropriate
@@ -573,7 +573,7 @@ struct type_caster<Eigen::Ref<PlainObjectType, 0, StrideType>,
                        Eigen::Ref<PlainObjectType, 0, StrideType>>::value>>
     : public eigen_map_caster<Eigen::Ref<PlainObjectType, 0, StrideType>>
 {
-  private:
+private:
 	using Type = Eigen::Ref<PlainObjectType, 0, StrideType>;
 	using props = EigenProps<Type>;
 	using Scalar = typename props::Scalar;
@@ -603,7 +603,7 @@ struct type_caster<Eigen::Ref<PlainObjectType, 0, StrideType>,
 	// read-write reference).
 	Array copy_or_ref;
 
-  public:
+public:
 	bool load(handle src, bool convert)
 	{
 		// First check whether what we have is already an array of the right
@@ -682,7 +682,7 @@ struct type_caster<Eigen::Ref<PlainObjectType, 0, StrideType>,
 	template <typename _T>
 	using cast_op_type = pybind11::detail::cast_op_type<_T>;
 
-  private:
+private:
 	template <typename T = Type,
 	          enable_if_t<is_eigen_mutable_map<T>::value, int> = 0>
 	Scalar *data(Array &a)
@@ -762,12 +762,12 @@ struct type_caster<Type, enable_if_t<is_eigen_other<Type>::value>>
 	static_assert(!std::is_pointer<typename Type::Scalar>::value,
 	              PYBIND11_EIGEN_MESSAGE_POINTER_TYPES_ARE_NOT_SUPPORTED);
 
-  protected:
+protected:
 	using Matrix = Eigen::Matrix<typename Type::Scalar, Type::RowsAtCompileTime,
 	                             Type::ColsAtCompileTime>;
 	using props = EigenProps<Matrix>;
 
-  public:
+public:
 	static handle cast(const Type &src, return_value_policy /* policy */,
 	                   handle /* parent */)
 	{

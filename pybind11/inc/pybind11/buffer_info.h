@@ -179,7 +179,7 @@ struct buffer_info
 		return detail::compare_buffer_info<T>::compare(*this);
 	}
 
-  private:
+private:
 	struct private_ctr_tag
 	{
 	};

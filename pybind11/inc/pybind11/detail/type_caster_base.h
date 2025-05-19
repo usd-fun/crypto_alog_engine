@@ -44,7 +44,7 @@ PYBIND11_NAMESPACE_BEGIN(detail)
 /// enclosing function returns.
 class loader_life_support
 {
-  private:
+private:
 	loader_life_support *parent = nullptr;
 	std::unordered_set<PyObject *> keep_alive;
 
@@ -63,7 +63,7 @@ class loader_life_support
 		PYBIND11_TLS_REPLACE_VALUE(get_stack_tls_key(), value);
 	}
 
-  public:
+public:
 	/// A new patient frame is created when a function is entered
 	loader_life_support() : parent{get_stack_top()} { set_stack_top(this); }
 
@@ -382,12 +382,12 @@ find_registered_python_instance(void *src, const detail::type_info *tinfo)
 // Container for accessing and iterating over an instance's values/holders
 struct values_and_holders
 {
-  private:
+private:
 	instance *inst;
 	using type_vec = std::vector<detail::type_info *>;
 	const type_vec &tinfo;
 
-  public:
+public:
 	explicit values_and_holders(instance *inst)
 	    : inst{inst}, tinfo(all_type_info(Py_TYPE(inst)))
 	{
@@ -404,7 +404,7 @@ struct values_and_holders
 
 	struct iterator
 	{
-	  private:
+	private:
 		instance *inst = nullptr;
 		const type_vec *types = nullptr;
 		value_and_holder curr;
@@ -425,7 +425,7 @@ struct values_and_holders
 		// Past-the-end iterator:
 		explicit iterator(size_t end) : curr(end) {}
 
-	  public:
+	public:
 		bool operator==(const iterator &other) const
 		{
 			return curr.index == other.curr.index;
@@ -1085,7 +1085,7 @@ PYBIND11_NAMESPACE_END(smart_holder_type_caster_support)
 
 class type_caster_generic
 {
-  public:
+public:
 	PYBIND11_NOINLINE explicit type_caster_generic(
 	    const std::type_info &type_info)
 	    : typeinfo(get_type_info(type_info)), cpptype(&type_info)
@@ -1840,7 +1840,7 @@ template <typename type> class type_caster_base : public type_caster_generic
 {
 	using itype = intrinsic_t<type>;
 
-  public:
+public:
 	static constexpr auto name = const_name<type>();
 
 	type_caster_base() : type_caster_base(typeid(type)) {}
@@ -1928,7 +1928,7 @@ template <typename type> class type_caster_base : public type_caster_generic
 		return *((itype *)value);
 	}
 
-  protected:
+protected:
 	using Constructor = void *(*)(const void *);
 
 	/* Only enabled when the types are {copy,move}-constructible *and* when the

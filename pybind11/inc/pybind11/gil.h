@@ -66,7 +66,7 @@ PYBIND11_NAMESPACE_END(detail)
 
 class gil_scoped_acquire
 {
-  public:
+public:
 	PYBIND11_NOINLINE gil_scoped_acquire()
 	{
 		auto &internals = detail::get_internals();
@@ -162,7 +162,7 @@ class gil_scoped_acquire
 		}
 	}
 
-  private:
+private:
 	PyThreadState *tstate = nullptr;
 	bool release = true;
 	bool active = true;
@@ -170,7 +170,7 @@ class gil_scoped_acquire
 
 class gil_scoped_release
 {
-  public:
+public:
 	// PRECONDITION: The GIL must be held when this constructor is called.
 	explicit gil_scoped_release(bool disassoc = false) : disassoc(disassoc)
 	{
@@ -219,7 +219,7 @@ class gil_scoped_release
 		}
 	}
 
-  private:
+private:
 	PyThreadState *tstate;
 	bool disassoc;
 	bool active = true;

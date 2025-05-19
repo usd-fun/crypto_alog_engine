@@ -36,7 +36,7 @@ PYBIND11_NAMESPACE_BEGIN(detail)
 template <typename T> struct path_caster
 {
 
-  private:
+private:
 	static PyObject *unicode_from_fs_native(const std::string &w)
 	{
 #if !defined(PYPY_VERSION)
@@ -53,7 +53,7 @@ template <typename T> struct path_caster
 		return PyUnicode_FromWideChar(w.c_str(), ssize_t(w.size()));
 	}
 
-  public:
+public:
 	static handle cast(const T &path, return_value_policy, handle)
 	{
 		if (auto py_str = unicode_from_fs_native(path.native()))

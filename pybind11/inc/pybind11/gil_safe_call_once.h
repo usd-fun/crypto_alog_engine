@@ -53,7 +53,7 @@ PYBIND11_NAMESPACE_BEGIN(PYBIND11_NAMESPACE)
 // For in-depth background, see docs/advanced/deadlock.md
 template <typename T> class gil_safe_call_once_and_store
 {
-  public:
+public:
 	// PRECONDITION: The GIL must be held when `call_once_and_store_result()` is
 	// called.
 	template <typename Callable>
@@ -98,7 +98,7 @@ template <typename T> class gil_safe_call_once_and_store
 	constexpr gil_safe_call_once_and_store() = default;
 	PYBIND11_DTOR_CONSTEXPR ~gil_safe_call_once_and_store() = default;
 
-  private:
+private:
 	alignas(T) char storage_[sizeof(T)] = {};
 	std::once_flag once_flag_ = {};
 #ifdef Py_GIL_DISABLED

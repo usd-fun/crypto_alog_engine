@@ -14,7 +14,7 @@ class gil_scoped_acquire_simple
 {
 	PyGILState_STATE state;
 
-  public:
+public:
 	gil_scoped_acquire_simple() : state{PyGILState_Ensure()} {}
 	gil_scoped_acquire_simple(const gil_scoped_acquire_simple &) = delete;
 	gil_scoped_acquire_simple &
@@ -26,7 +26,7 @@ class gil_scoped_release_simple
 {
 	PyThreadState *state;
 
-  public:
+public:
 	// PRECONDITION: The GIL must be held when this constructor is called.
 	gil_scoped_release_simple()
 	{

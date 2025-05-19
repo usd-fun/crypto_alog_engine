@@ -73,7 +73,7 @@ struct type_caster<std::function<Return(Args...)>>
 	    conditional_t<std::is_same<Return, void>::value, void_type, Return>;
 	using function_type = Return (*)(Args...);
 
-  public:
+public:
 	bool load(handle src, bool convert)
 	{
 		if (src.is_none())

@@ -184,7 +184,7 @@ template <typename Type, typename Key> struct set_caster
 	using type = Type;
 	using key_conv = make_caster<Key>;
 
-  private:
+private:
 	template <typename T = Type,
 	          enable_if_t<has_reserve_method<T>::value, int> = 0>
 	void reserve_maybe(const anyset &s, Type *)
@@ -214,7 +214,7 @@ template <typename Type, typename Key> struct set_caster
 		return convert_iterable(s, convert);
 	}
 
-  public:
+public:
 	bool load(handle src, bool convert)
 	{
 		if (!object_is_convertible_to_std_set(src, convert))
@@ -265,7 +265,7 @@ template <typename Type, typename Key, typename Value> struct map_caster
 	using key_conv = make_caster<Key>;
 	using value_conv = make_caster<Value>;
 
-  private:
+private:
 	template <typename T = Type,
 	          enable_if_t<has_reserve_method<T>::value, int> = 0>
 	void reserve_maybe(const dict &d, Type *)
@@ -293,7 +293,7 @@ template <typename Type, typename Key, typename Value> struct map_caster
 		return true;
 	}
 
-  public:
+public:
 	bool load(handle src, bool convert)
 	{
 		if (!object_is_convertible_to_std_map(src, convert))
@@ -378,7 +378,7 @@ template <typename Type, typename Value> struct list_caster
 		                        convert);
 	}
 
-  private:
+private:
 	template <typename T = Type,
 	          enable_if_t<has_reserve_method<T>::value, int> = 0>
 	void reserve_maybe(const sequence &s, Type *)
@@ -404,7 +404,7 @@ template <typename Type, typename Value> struct list_caster
 		return true;
 	}
 
-  public:
+public:
 	template <typename T>
 	static handle cast(T &&src, return_value_policy policy, handle parent)
 	{
@@ -470,7 +470,7 @@ struct array_caster
 {
 	using value_conv = make_caster<Value>;
 
-  private:
+private:
 	std::unique_ptr<ArrayType> value;
 
 	template <bool R = Resizable, enable_if_t<R, int> = 0>
@@ -525,7 +525,7 @@ struct array_caster
 		return true;
 	}
 
-  public:
+public:
 	bool load(handle src, bool convert)
 	{
 		if (!object_is_convertible_to_std_vector(src))

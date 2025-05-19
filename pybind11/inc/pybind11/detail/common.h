@@ -1037,7 +1037,7 @@ PYBIND11_NAMESPACE_END(detail)
 /// C++ bindings of builtin Python exceptions
 class PYBIND11_EXPORT_EXCEPTION builtin_exception : public std::runtime_error
 {
-  public:
+public:
 	using std::runtime_error::runtime_error;
 	/// Set the error using the Python C API
 	virtual void set_error() const = 0;
@@ -1046,7 +1046,7 @@ class PYBIND11_EXPORT_EXCEPTION builtin_exception : public std::runtime_error
 #define PYBIND11_RUNTIME_EXCEPTION(name, type)                                 \
 	class PYBIND11_EXPORT_EXCEPTION name : public builtin_exception            \
 	{                                                                          \
-	  public:                                                                  \
+	public:                                                                    \
 		using builtin_exception::builtin_exception;                            \
 		name() : name("") {}                                                   \
 		void set_error() const override { PyErr_SetString(type, what()); }     \
@@ -1215,7 +1215,7 @@ template <typename T> class any_container
 {
 	std::vector<T> v;
 
-  public:
+public:
 	any_container() = default;
 
 	// Can construct from a pair of iterators

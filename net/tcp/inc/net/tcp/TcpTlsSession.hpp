@@ -24,7 +24,8 @@ namespace net
 	{
 		class TcpTlsSession
 		{
-		  public:
+		public:
+		public:
 			TcpTlsSession(std::size_t read_buffer_size = 1048576,
 			              std::size_t write_buffer_size = 1048576,
 			              bool auto_connect = true)
@@ -166,7 +167,7 @@ namespace net
 				return ret;
 			}
 
-		  private:
+		private:
 			SSL_CTX *_ctx;
 			SSL *_ssl;
 			std::vector<char> _read_buffer;

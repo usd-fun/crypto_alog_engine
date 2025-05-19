@@ -12,7 +12,7 @@ PYBIND11_NAMESPACE_BEGIN(detail)
 
 template <> class type_caster<PyObject>
 {
-  public:
+public:
 	static constexpr auto name =
 	    const_name("object"); // See discussion under PR #4601.
 
@@ -65,7 +65,7 @@ template <> class type_caster<PyObject>
 
 	explicit operator PyObject *() { return value.ptr(); }
 
-  private:
+private:
 	object value;
 };
 

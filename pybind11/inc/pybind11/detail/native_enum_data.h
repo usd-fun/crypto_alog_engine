@@ -26,7 +26,7 @@ native_enum_missing_finalize_error_message(const std::string &enum_name_encoded)
 
 class native_enum_data
 {
-  public:
+public:
 	native_enum_data(const object &parent_scope, const char *enum_name,
 	                 const char *native_type_name, const char *class_doc,
 	                 const std::type_index &enum_type_index)
@@ -56,7 +56,7 @@ class native_enum_data
 	}
 #endif
 
-  protected:
+protected:
 	void disarm_finalize_check(const char *error_context)
 	{
 		if (!finalize_needed)
@@ -77,19 +77,19 @@ class native_enum_data
 	std::string native_type_name_encoded;
 	std::type_index enum_type_index;
 
-  private:
+private:
 	object parent_scope;
 	str enum_name;
 	str native_type_name;
 	std::string class_doc;
 
-  protected:
+protected:
 	list members;
 	list member_docs;
 	bool export_values_flag : 1; // Attention: It is best to keep the bools
 	                             // together.
 
-  private:
+private:
 	bool finalize_needed : 1;
 };
 

@@ -324,7 +324,7 @@ PYBIND11_NAMESPACE_END(detail)
 /// Python object
 class cpp_function : public function
 {
-  public:
+public:
 	cpp_function() = default;
 	// NOLINTNEXTLINE(google-explicit-constructor)
 	cpp_function(std::nullptr_t) {}
@@ -401,7 +401,7 @@ class cpp_function : public function
 	/// Return the function name
 	object name() const { return attr("__name__"); }
 
-  protected:
+protected:
 	struct InitializingFunctionRecordDeleter
 	{
 		// `destruct(function_record, false)`: `initialize_generic` copies
@@ -633,7 +633,7 @@ class cpp_function : public function
 	// to deal with exceptions along the way.
 	class strdup_guard
 	{
-	  public:
+	public:
 		strdup_guard() = default;
 		strdup_guard(const strdup_guard &) = delete;
 		strdup_guard &operator=(const strdup_guard &) = delete;
@@ -653,7 +653,7 @@ class cpp_function : public function
 		}
 		void release() { strings.clear(); }
 
-	  private:
+	private:
 		std::vector<char *> strings;
 	};
 
@@ -1611,17 +1611,17 @@ PYBIND11_NAMESPACE_END(detail)
 // Use to activate Py_MOD_GIL_NOT_USED.
 class mod_gil_not_used
 {
-  public:
+public:
 	explicit mod_gil_not_used(bool flag = true) : flag_(flag) {}
 	bool flag() const { return flag_; }
 
-  private:
+private:
 	bool flag_;
 };
 
 class multiple_interpreters
 {
-  public:
+public:
 	enum class level
 	{
 		not_supported, /// Use to activate
@@ -1647,7 +1647,7 @@ class multiple_interpreters
 	explicit constexpr multiple_interpreters(level l) : level_(l) {}
 	level value() const { return level_; }
 
-  private:
+private:
 	level level_;
 };
 
@@ -1698,7 +1698,7 @@ PYBIND11_NAMESPACE_END(detail)
 /// Wrapper for Python extension modules
 class module_ : public object
 {
-  public:
+public:
 	PYBIND11_OBJECT_DEFAULT(module_, object, PyModule_Check)
 
 	/// Create a new top-level Python module with the given name and docstring
@@ -1993,9 +1993,9 @@ PYBIND11_NAMESPACE_BEGIN(detail)
 /// Generic support for creating new Python heap types
 class generic_type : public object
 {
-  public:
+public:
 	PYBIND11_OBJECT_DEFAULT(generic_type, object, PyType_Check)
-  protected:
+protected:
 	void initialize(const type_record &rec)
 	{
 		if (rec.scope && hasattr(rec.scope, "__dict__") &&
@@ -2532,7 +2532,7 @@ class class_ : public detail::generic_type
 	{
 	};
 
-  public:
+public:
 	using type = type_;
 	using type_alias = detail::exactly_one_t<is_subtype, void, options...>;
 	constexpr static bool has_alias = !std::is_void<type_alias>::value;
@@ -2937,7 +2937,7 @@ class class_ : public detail::generic_type
 		return *this;
 	}
 
-  private:
+private:
 	/// Initialize holder object, variant 1: object derives from
 	/// enable_shared_from_this
 	template <typename T>
@@ -3480,7 +3480,7 @@ PYBIND11_NAMESPACE_END(detail)
 /// Binds C++ enumerations and enumeration classes to Python
 template <typename Type> class enum_ : public class_<Type>
 {
-  public:
+public:
 	using Base = class_<Type>;
 	using Base::attr;
 	using Base::def;
@@ -3544,7 +3544,7 @@ template <typename Type> class enum_ : public class_<Type>
 		return *this;
 	}
 
-  private:
+private:
 	detail::enum_base m_base;
 };
 
@@ -3702,10 +3702,10 @@ template <typename Iterator,
           typename SFINAE = decltype((*std::declval<Iterator &>()).first)>
 class iterator_key_access
 {
-  private:
+private:
 	using pair_type = decltype(*std::declval<Iterator &>());
 
-  public:
+public:
 	/* If either the pair itself or the element of the pair is a reference, we
 	 * want to return a reference, otherwise a value. When the decltype
 	 * expression is parenthesized it is based on the value category of the
@@ -3726,10 +3726,10 @@ template <typename Iterator,
           typename SFINAE = decltype((*std::declval<Iterator &>()).second)>
 class iterator_value_access
 {
-  private:
+private:
 	using pair_type = decltype(*std::declval<Iterator &>());
 
-  public:
+public:
 	using result_type = conditional_t<
 	    std::is_reference<decltype(*std::declval<Iterator &>())>::value,
 	    decltype(((*std::declval<Iterator &>()).second)),
@@ -3952,7 +3952,7 @@ register_local_exception_translator(ExceptionTranslator &&translator)
  */
 template <typename type> class exception : public object
 {
-  public:
+public:
 	exception() = default;
 	exception(handle scope, const char *name, handle base = PyExc_Exception)
 	{

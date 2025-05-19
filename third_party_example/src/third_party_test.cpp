@@ -4,7 +4,7 @@
 
 class py_test
 {
-  public:
+public:
 	int add(int x, int y) { return x + y; }
 };
 

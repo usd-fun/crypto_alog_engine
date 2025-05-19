@@ -315,7 +315,7 @@ struct npy_api
 	PyObject *(*PyArray_Newshape_)(PyObject *, PyArray_Dims *, int);
 	PyObject *(*PyArray_View_)(PyObject *, PyObject *, PyObject *);
 
-  private:
+private:
 	enum functions
 	{
 		API_PyArray_GetNDArrayCFeatureVersion = 211,
@@ -593,7 +593,7 @@ ssize_t byte_offset_unsafe(const Strides &strides, ssize_t i, Ix... index)
  */
 template <typename T, ssize_t Dims> class unchecked_reference
 {
-  protected:
+protected:
 	static constexpr bool Dynamic = Dims < 0;
 	const unsigned char *data_;
 	// Storing the shape & strides in local variables (i.e. these arrays) allows
@@ -625,7 +625,7 @@ template <typename T, ssize_t Dims> class unchecked_reference
 	{
 	}
 
-  public:
+public:
 	/**
 	 * Unchecked const reference access to data at the given indices.  For a
 	 * compile-time known number of dimensions, this requires the correct number
@@ -693,7 +693,7 @@ class unchecked_mutable_reference : public unchecked_reference<T, Dims>
 	using ConstBase::ConstBase;
 	using ConstBase::Dynamic;
 
-  public:
+public:
 	// Bring in const-qualified versions from base class
 	using ConstBase::operator();
 	using ConstBase::operator[];
@@ -740,7 +740,7 @@ PYBIND11_NAMESPACE_END(detail)
 
 class dtype : public object
 {
-  public:
+public:
 	PYBIND11_OBJECT_DEFAULT(dtype, object,
 	                        detail::npy_api::get().PyArrayDescr_Check_)
 
@@ -904,7 +904,7 @@ class dtype : public object
 		return detail::array_descriptor2_proxy(m_ptr)->flags;
 	}
 
-  private:
+private:
 	static object &_dtype_from_pep3118()
 	{
 		PYBIND11_CONSTINIT static gil_safe_call_once_and_store<object> storage;
@@ -975,7 +975,7 @@ class dtype : public object
 
 class array : public buffer
 {
-  public:
+public:
 	PYBIND11_OBJECT_CVT(array, buffer, detail::npy_api::get().PyArray_Check_,
 	                    raw_array)
 
@@ -1328,7 +1328,7 @@ class array : public buffer
 		return result;
 	}
 
-  protected:
+protected:
 	template <typename, typename> friend struct detail::npy_format_descriptor;
 
 	void fail_dim_check(ssize_t dim, const std::string &msg) const
@@ -1390,7 +1390,7 @@ class array : public buffer
 template <typename T, int ExtraFlags = array::forcecast>
 class array_t : public array
 {
-  private:
+private:
 	struct private_ctor
 	{
 	};
@@ -1402,7 +1402,7 @@ class array_t : public array
 	{
 	}
 
-  public:
+public:
 	static_assert(!detail::array_info<T>::is_array,
 	              "Array types cannot be used with array_t");
 
@@ -1551,7 +1551,7 @@ class array_t : public array
 		           h.ptr(), ExtraFlags & (array::c_style | array::f_style));
 	}
 
-  protected:
+protected:
 	/// Create array from any object -- always returns a new reference
 	static PyObject *raw_array_t(PyObject *ptr)
 	{
@@ -1689,7 +1689,7 @@ struct npy_format_descriptor<
     T, enable_if_t<satisfies_any_of<T, std::is_arithmetic, is_complex>::value>>
     : npy_format_descriptor_name<T>
 {
-  private:
+private:
 	// NB: the order here must match the one in common.h
 	constexpr static const int values[15] = {
 	    npy_api::NPY_BOOL_,   npy_api::NPY_BYTE_,    npy_api::NPY_UBYTE_,
@@ -1698,7 +1698,7 @@ struct npy_format_descriptor<
 	    npy_api::NPY_FLOAT_,  npy_api::NPY_DOUBLE_,  npy_api::NPY_LONGDOUBLE_,
 	    npy_api::NPY_CFLOAT_, npy_api::NPY_CDOUBLE_, npy_api::NPY_CLONGDOUBLE_};
 
-  public:
+public:
 	static constexpr int value = values[detail::is_fmt_numeric<T>::index];
 
 	static pybind11::dtype dtype()
@@ -1743,10 +1743,10 @@ template <size_t N> struct npy_format_descriptor<std::array<char, N>>
 template <typename T>
 struct npy_format_descriptor<T, enable_if_t<array_info<T>::is_array>>
 {
-  private:
+private:
 	using base_descr = npy_format_descriptor<typename array_info<T>::type>;
 
-  public:
+public:
 	static_assert(!array_info<T>::is_empty,
 	              "Zero-sized arrays are not supported");
 
@@ -1764,11 +1764,11 @@ struct npy_format_descriptor<T, enable_if_t<array_info<T>::is_array>>
 template <typename T>
 struct npy_format_descriptor<T, enable_if_t<std::is_enum<T>::value>>
 {
-  private:
+private:
 	using base_descr =
 	    npy_format_descriptor<typename std::underlying_type<T>::type>;
 
-  public:
+public:
 	static constexpr auto name = base_descr::name;
 	static pybind11::dtype dtype() { return base_descr::dtype(); }
 };
@@ -1893,7 +1893,7 @@ template <typename T, typename SFINAE> struct npy_format_descriptor
 		                          sizeof(T), &direct_converter);
 	}
 
-  private:
+private:
 	static PyObject *dtype_ptr()
 	{
 		static PyObject *ptr =
@@ -2017,7 +2017,7 @@ template <typename T, typename SFINAE> struct npy_format_descriptor
 
 class common_iterator
 {
-  public:
+public:
 	using container_type = std::vector<ssize_t>;
 	using value_type = container_type::value_type;
 	using size_type = container_type::size_type;
@@ -2041,14 +2041,14 @@ class common_iterator
 
 	void *data() const { return p_ptr; }
 
-  private:
+private:
 	char *p_ptr{nullptr};
 	container_type m_strides;
 };
 
 template <size_t N> class multi_array_iterator
 {
-  public:
+public:
 	using container_type = std::vector<ssize_t>;
 
 	multi_array_iterator(const std::array<buffer_info, N> &buffers,
@@ -2090,7 +2090,7 @@ template <size_t N> class multi_array_iterator
 		return reinterpret_cast<T *>(m_common_iterator[K].data());
 	}
 
-  private:
+private:
 	using common_iter = common_iterator;
 
 	void init_common_iterator(const buffer_info &buffer,
@@ -2334,9 +2334,9 @@ struct vectorize_helper
 
 // NVCC for some reason breaks if NVectorized is private
 #ifdef __CUDACC__
-  public:
+public:
 #else
-  private:
+private:
 #endif
 
 	static constexpr size_t N = sizeof...(Args);
@@ -2346,7 +2346,7 @@ struct vectorize_helper
 	              "pybind11::vectorize(...) requires a function with at least "
 	              "one vectorizable argument");
 
-  public:
+public:
 	template <typename T,
 	          // SFINAE to prevent shadowing the copy constructor.
 	          typename = detail::enable_if_t<!std::is_same<
@@ -2362,7 +2362,7 @@ struct vectorize_helper
 		           make_index_sequence<NVectorized>());
 	}
 
-  private:
+private:
 	remove_reference_t<Func> f;
 
 	// Internal compiler error in MSVC 19.16.27025.1 (Visual Studio

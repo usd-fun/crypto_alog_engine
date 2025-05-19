@@ -19,7 +19,7 @@ PYBIND11_NAMESPACE_BEGIN(PYBIND11_NAMESPACE)
 /// Conversions between Python's native (stdlib) enum types and C++ enums.
 template <typename EnumType> class native_enum : public detail::native_enum_data
 {
-  public:
+public:
 	using Underlying = typename std::underlying_type<EnumType>::type;
 
 	native_enum(const object &parent_scope, const char *name,

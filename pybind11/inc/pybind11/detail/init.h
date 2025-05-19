@@ -21,7 +21,7 @@ PYBIND11_NAMESPACE_BEGIN(detail)
 
 template <> class type_caster<value_and_holder>
 {
-  public:
+public:
 	bool load(handle h, bool)
 	{
 		value = reinterpret_cast<value_and_holder *>(h.ptr());
@@ -32,7 +32,7 @@ template <> class type_caster<value_and_holder>
 	explicit operator value_and_holder &() { return *value; }
 	static constexpr auto name = const_name<value_and_holder>();
 
-  private:
+private:
 	value_and_holder *value = nullptr;
 };
 

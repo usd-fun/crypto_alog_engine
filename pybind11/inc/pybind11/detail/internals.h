@@ -155,7 +155,7 @@ class pymutex
 {
 	PyMutex mutex;
 
-  public:
+public:
 	pymutex() : mutex({}) {}
 	void lock() { PyMutex_Lock(&mutex); }
 	void unlock() { PyMutex_Unlock(&mutex); }

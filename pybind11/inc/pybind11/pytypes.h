@@ -88,7 +88,7 @@ template <typename Derived> class object_api : public pyobject_tag
 		return static_cast<const Derived &>(*this);
 	}
 
-  public:
+public:
 	/** \rst
 	    Return an iterator equivalent to calling ``iter()`` in Python. The
 	object must be a collection which supports the iteration protocol. \endrst
@@ -248,7 +248,7 @@ template <typename Derived> class object_api : public pyobject_tag
 	                    "instead of h.get_type()")
 	handle get_type() const;
 
-  private:
+private:
 	bool rich_compare(object_api const &other, int value) const;
 };
 
@@ -279,7 +279,7 @@ API functions.
 \endrst */
 class handle : public detail::object_api<handle>
 {
-  public:
+public:
 	/// The default constructor creates a handle with a ``nullptr``-valued
 	/// pointer
 	handle() = default;
@@ -364,10 +364,10 @@ class handle : public detail::object_api<handle>
 	PYBIND11_DEPRECATED("Use handle::operator bool() instead")
 	bool check() const { return m_ptr != nullptr; }
 
-  protected:
+protected:
 	PyObject *m_ptr = nullptr;
 
-  private:
+private:
 #ifdef PYBIND11_ASSERT_GIL_HELD_INCREF_DECREF
 	void throw_gilstate_error(const std::string &function_name) const
 	{
@@ -407,7 +407,7 @@ class handle : public detail::object_api<handle>
 		return counter;
 	}
 
-  public:
+public:
 	static std::size_t inc_ref_counter() { return inc_ref_counter(0); }
 #endif
 };
@@ -434,7 +434,7 @@ consistently, it is much easier to get reference counting right at the first
 attempt. \endrst */
 class object : public handle
 {
-  public:
+public:
 	object() = default;
 	PYBIND11_DEPRECATED(
 	    "Use reinterpret_borrow<object>() or reinterpret_steal<object>()")
@@ -513,7 +513,7 @@ class object : public handle
 	// Calling on an object rvalue does a move, if needed and/or possible
 	template <typename T> T cast() &&;
 
-  protected:
+protected:
 	// Tags for choosing constructors from raw PyObject *
 	struct borrowed_t
 	{
@@ -527,7 +527,7 @@ class object : public handle
 	template <typename T> friend T reinterpret_steal(handle);
 	/// @endcond
 
-  public:
+public:
 	// Only accessible from derived classes and the reinterpret_* functions
 	object(handle h, borrowed_t) : handle(h) { inc_ref(); }
 	object(handle h, stolen_t) : handle(h) {}
@@ -857,7 +857,7 @@ struct error_fetch_and_normalize
 	// Not protecting these for simplicity.
 	object m_type, m_value, m_trace;
 
-  private:
+private:
 	// Only protecting invariants.
 	mutable std::string m_lazy_error_string;
 	mutable bool m_lazy_error_string_completed = false;
@@ -878,7 +878,7 @@ PYBIND11_NAMESPACE_END(detail)
 /// dispatcher (which then raises the captured error back to python).
 class PYBIND11_EXPORT_EXCEPTION error_already_set : public std::exception
 {
-  public:
+public:
 	/// Fetches the current Python exception (using PyErr_Fetch()), which will
 	/// clear the current Python error indicator.
 	error_already_set()
@@ -935,7 +935,7 @@ class PYBIND11_EXPORT_EXCEPTION error_already_set : public std::exception
 	const object &value() const { return m_fetched_error->m_value; }
 	const object &trace() const { return m_fetched_error->m_trace; }
 
-  private:
+private:
 	std::shared_ptr<detail::error_fetch_and_normalize> m_fetched_error;
 
 	/// WARNING: This custom deleter needs to acquire the Python GIL. This can
@@ -1218,7 +1218,7 @@ template <typename Policy> class accessor : public object_api<accessor<Policy>>
 {
 	using key_type = typename Policy::key_type;
 
-  public:
+public:
 	accessor(handle obj, key_type key) : obj(obj), key(std::move(key)) {}
 	accessor(const accessor &) = default;
 	accessor(accessor &&) noexcept = default;
@@ -1270,7 +1270,7 @@ template <typename Policy> class accessor : public object_api<accessor<Policy>>
 		return get_cache().template cast<T>();
 	}
 
-  private:
+private:
 	static object ensure_object(object &&o) { return std::move(o); }
 	static object ensure_object(handle h)
 	{
@@ -1286,7 +1286,7 @@ template <typename Policy> class accessor : public object_api<accessor<Policy>>
 		return cache;
 	}
 
-  private:
+private:
 	handle obj;
 	key_type key;
 	mutable object cache;
@@ -1429,7 +1429,7 @@ template <typename Policy> class generic_iterator : public Policy
 {
 	using It = generic_iterator;
 
-  public:
+public:
 	using difference_type = ssize_t;
 	using iterator_category = typename Policy::iterator_category;
 	using value_type = typename Policy::value_type;
@@ -1518,7 +1518,7 @@ template <typename T> struct arrow_proxy
 /// ``PySequence_Fast_ITEMS``
 class sequence_fast_readonly
 {
-  protected:
+protected:
 	using iterator_category = std::random_access_iterator_tag;
 	using value_type = handle;
 	using reference = const handle; // PR #3263
@@ -1541,7 +1541,7 @@ class sequence_fast_readonly
 		return ptr - b.ptr;
 	}
 
-  private:
+private:
 	PyObject **ptr;
 };
 
@@ -1549,7 +1549,7 @@ class sequence_fast_readonly
 /// ``detail::sequence_accessor``
 class sequence_slow_readwrite
 {
-  protected:
+protected:
 	using iterator_category = std::random_access_iterator_tag;
 	using value_type = object;
 	using reference = sequence_accessor;
@@ -1573,7 +1573,7 @@ class sequence_slow_readwrite
 		return index - b.index;
 	}
 
-  private:
+private:
 	handle obj;
 	ssize_t index;
 };
@@ -1581,7 +1581,7 @@ class sequence_slow_readwrite
 /// Python's dictionary protocol permits this to be a forward iterator
 class dict_readonly
 {
-  protected:
+protected:
 	using iterator_category = std::forward_iterator_tag;
 	using value_type = std::pair<handle, handle>;
 	using reference = const value_type; // PR #3263
@@ -1601,7 +1601,7 @@ class dict_readonly
 	}
 	bool equal(const dict_readonly &b) const { return pos == b.pos; }
 
-  private:
+private:
 	handle obj;
 	PyObject *key = nullptr, *value = nullptr;
 	ssize_t pos = -1;
@@ -1656,13 +1656,13 @@ inline bool PyStaticMethod_Check(PyObject *o)
 
 class kwargs_proxy : public handle
 {
-  public:
+public:
 	explicit kwargs_proxy(handle h) : handle(h) {}
 };
 
 class args_proxy : public handle
 {
-  public:
+public:
 	explicit args_proxy(handle h) : handle(h) {}
 	kwargs_proxy operator*() const { return kwargs_proxy(*this); }
 };
@@ -1709,7 +1709,7 @@ PYBIND11_NAMESPACE_END(detail)
 //       because the `using` statement triggers the parent deprecation warning
 //       even if the ctor isn't even used.
 #define PYBIND11_OBJECT_COMMON(Name, Parent, CheckFun)                         \
-  public:                                                                      \
+public:                                                                        \
 	PYBIND11_DEPRECATED("Use reinterpret_borrow<" #Name                        \
 	                    ">() or reinterpret_steal<" #Name ">()")               \
 	Name(handle h, bool is_borrowed)                                           \
@@ -1796,7 +1796,7 @@ PYBIND11_NAMESPACE_END(detail)
 \endrst */
 class iterator : public object
 {
-  public:
+public:
 	using iterator_category = std::input_iterator_tag;
 	using difference_type = ssize_t;
 	using value_type = handle;
@@ -1862,7 +1862,7 @@ class iterator : public object
 		return a->ptr() != b->ptr();
 	}
 
-  private:
+private:
 	void init() const
 	{
 		if (m_ptr && !value.ptr())
@@ -1881,13 +1881,13 @@ class iterator : public object
 		}
 	}
 
-  private:
+private:
 	object value = {};
 };
 
 class type : public object
 {
-  public:
+public:
 	PYBIND11_OBJECT(type, object, PyType_Check)
 
 	/// Return a type handle from a handle or an object
@@ -1916,7 +1916,7 @@ class type : public object
 
 class iterable : public object
 {
-  public:
+public:
 	PYBIND11_OBJECT_DEFAULT(iterable, object, detail::PyIterable_Check)
 };
 
@@ -1924,7 +1924,7 @@ class bytes;
 
 class str : public object
 {
-  public:
+public:
 	PYBIND11_OBJECT_CVT(str, object, PYBIND11_STR_CHECK_FUN, raw_str)
 
 	template <typename SzType,
@@ -2022,7 +2022,7 @@ class str : public object
 		return attr("format")(std::forward<Args>(args)...);
 	}
 
-  private:
+private:
 	/// Return string representation -- always returns a new reference, even if
 	/// already a str
 	static PyObject *raw_str(PyObject *op)
@@ -2055,7 +2055,7 @@ inline namespace literals
 /// @{
 class bytes : public object
 {
-  public:
+public:
 	PYBIND11_OBJECT(bytes, object, PYBIND11_BYTES_CHECK)
 
 	// Allow implicit conversion:
@@ -2107,7 +2107,7 @@ class bytes : public object
 	// NOLINTNEXTLINE(google-explicit-constructor)
 	operator std::string_view() const { return string_op<std::string_view>(); }
 #endif
-  private:
+private:
 	template <typename T> T string_op() const
 	{
 		char *buffer = nullptr;
@@ -2175,7 +2175,7 @@ inline str::str(const bytes &b)
 /// @{
 class bytearray : public object
 {
-  public:
+public:
 	PYBIND11_OBJECT_CVT(bytearray, object, PyByteArray_Check,
 	                    PyByteArray_FromObject)
 
@@ -2212,21 +2212,21 @@ class bytearray : public object
 /// @{
 class none : public object
 {
-  public:
+public:
 	PYBIND11_OBJECT(none, object, detail::PyNone_Check)
 	none() : object(Py_None, borrowed_t{}) {}
 };
 
 class ellipsis : public object
 {
-  public:
+public:
 	PYBIND11_OBJECT(ellipsis, object, detail::PyEllipsis_Check)
 	ellipsis() : object(Py_Ellipsis, borrowed_t{}) {}
 };
 
 class bool_ : public object
 {
-  public:
+public:
 	PYBIND11_OBJECT_CVT(bool_, object, PyBool_Check, raw_bool)
 	bool_() : object(Py_False, borrowed_t{}) {}
 	// Allow implicit conversion from and to `bool`:
@@ -2238,7 +2238,7 @@ class bool_ : public object
 		return (m_ptr != nullptr) && PyLong_AsLong(m_ptr) != 0;
 	}
 
-  private:
+private:
 	/// Return the truth value of an object -- always returns a new reference
 	static PyObject *raw_bool(PyObject *op)
 	{
@@ -2273,7 +2273,7 @@ PYBIND11_NAMESPACE_END(detail)
 
 class int_ : public object
 {
-  public:
+public:
 	PYBIND11_OBJECT_CVT(int_, object, PYBIND11_LONG_CHECK, PyNumber_Long)
 	int_() : object(PyLong_FromLong(0), stolen_t{}) {}
 	// Allow implicit conversion from C++ integral types:
@@ -2324,7 +2324,7 @@ class int_ : public object
 
 class float_ : public object
 {
-  public:
+public:
 	PYBIND11_OBJECT_CVT(float_, object, PyFloat_Check, PyNumber_Float)
 	// Allow implicit conversion from float/double:
 	// NOLINTNEXTLINE(google-explicit-constructor)
@@ -2352,7 +2352,7 @@ class float_ : public object
 
 class weakref : public object
 {
-  public:
+public:
 	PYBIND11_OBJECT_CVT_DEFAULT(weakref, object, PyWeakref_Check, raw_weakref)
 	explicit weakref(handle obj, handle callback = {})
 	    : object(PyWeakref_NewRef(obj.ptr(), callback.ptr()), stolen_t{})
@@ -2367,7 +2367,7 @@ class weakref : public object
 		}
 	}
 
-  private:
+private:
 	static PyObject *raw_weakref(PyObject *o)
 	{
 		return PyWeakref_NewRef(o, nullptr);
@@ -2376,7 +2376,7 @@ class weakref : public object
 
 class slice : public object
 {
-  public:
+public:
 	PYBIND11_OBJECT(slice, object, PySlice_Check)
 	slice(handle start, handle stop, handle step)
 	    : object(PySlice_New(start.ptr(), stop.ptr(), step.ptr()), stolen_t{})
@@ -2417,7 +2417,7 @@ class slice : public object
 		                            start, stop, step, slicelength) == 0;
 	}
 
-  private:
+private:
 	template <typename T> static object index_to_object(T index)
 	{
 		return index ? object(int_(*index)) : object(none());
@@ -2426,7 +2426,7 @@ class slice : public object
 
 class capsule : public object
 {
-  public:
+public:
 	PYBIND11_OBJECT_DEFAULT(capsule, object, PyCapsule_CheckExact)
 	PYBIND11_DEPRECATED(
 	    "Use reinterpret_borrow<capsule>() or reinterpret_steal<capsule>()")
@@ -2538,7 +2538,7 @@ class capsule : public object
 		}
 	}
 
-  private:
+private:
 	static const char *get_name_in_error_scope(PyObject *o)
 	{
 		error_scope error_guard;
@@ -2593,7 +2593,7 @@ class capsule : public object
 
 class tuple : public object
 {
-  public:
+public:
 	PYBIND11_OBJECT_CVT(tuple, object, PyTuple_Check, PySequence_Tuple)
 	template <typename SzType = ssize_t,
 	          detail::enable_if_t<std::is_integral<SzType>::value, int> = 0>
@@ -2635,7 +2635,7 @@ template <typename... Args> constexpr bool args_are_all_keyword_or_ds()
 
 class dict : public object
 {
-  public:
+public:
 	PYBIND11_OBJECT_CVT(dict, object, PyDict_Check, raw_dict)
 	dict() : object(PyDict_New(), stolen_t{})
 	{
@@ -2672,7 +2672,7 @@ class dict : public object
 		return result == 1;
 	}
 
-  private:
+private:
 	/// Call the `dict` Python type -- always returns a new reference
 	static PyObject *raw_dict(PyObject *op)
 	{
@@ -2687,7 +2687,7 @@ class dict : public object
 
 class sequence : public object
 {
-  public:
+public:
 	PYBIND11_OBJECT_DEFAULT(sequence, object, PySequence_Check)
 	size_t size() const
 	{
@@ -2718,7 +2718,7 @@ class sequence : public object
 
 class list : public object
 {
-  public:
+public:
 	PYBIND11_OBJECT_CVT(list, object, PyList_Check, PySequence_List)
 	template <typename SzType = ssize_t,
 	          detail::enable_if_t<std::is_integral<SzType>::value, int> = 0>
@@ -2799,7 +2799,7 @@ template <typename T> class KWArgs : public kwargs
 
 class anyset : public object
 {
-  public:
+public:
 	PYBIND11_OBJECT(anyset, object, PyAnySet_Check)
 	size_t size() const { return static_cast<size_t>(PySet_Size(m_ptr)); }
 	bool empty() const { return size() == 0; }
@@ -2817,7 +2817,7 @@ class anyset : public object
 
 class set : public anyset
 {
-  public:
+public:
 	PYBIND11_OBJECT_CVT(set, anyset, PySet_Check, PySet_New)
 	set() : anyset(PySet_New(nullptr), stolen_t{})
 	{
@@ -2837,13 +2837,13 @@ class set : public anyset
 
 class frozenset : public anyset
 {
-  public:
+public:
 	PYBIND11_OBJECT_CVT(frozenset, anyset, PyFrozenSet_Check, PyFrozenSet_New)
 };
 
 class function : public object
 {
-  public:
+public:
 	PYBIND11_OBJECT_DEFAULT(function, object, PyCallable_Check)
 	handle cpp_function() const
 	{
@@ -2859,14 +2859,14 @@ class function : public object
 
 class staticmethod : public object
 {
-  public:
+public:
 	PYBIND11_OBJECT_CVT(staticmethod, object, detail::PyStaticMethod_Check,
 	                    PyStaticMethod_New)
 };
 
 class buffer : public object
 {
-  public:
+public:
 	PYBIND11_OBJECT_DEFAULT(buffer, object, PyObject_CheckBuffer)
 
 	buffer_info request(bool writable = false) const
@@ -2888,7 +2888,7 @@ class buffer : public object
 
 class memoryview : public object
 {
-  public:
+public:
 	PYBIND11_OBJECT_CVT(memoryview, object, PyMemoryView_Check,
 	                    PyMemoryView_FromObject)
 
