@@ -1,5 +1,5 @@
-#ifndef NET_TCP_TCP_TLS_CLIENT_H
-#define NET_TCP_TCP_TLS_CLIENT_H
+#ifndef NET_TCP_TCP_TLS_SESSION_H
+#define NET_TCP_TCP_TLS_SESSION_H
 
 #include <arpa/inet.h>
 #include <cerrno>
@@ -473,4 +473,4 @@ namespace net
 	} // namespace tcp
 } // namespace net
 
-#endif // NET_TCP_TCP_TLS_CLIENT_H
+#endif // NET_TCP_TCP_TLS_SESSION_H
