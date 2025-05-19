@@ -138,8 +138,10 @@ private:
 
 public:
 	explicit pythonbuf(const object &pyostream, size_t buffer_size = 1024)
-	    : buf_size(buffer_size), d_buffer(new char[buf_size]),
-	      pywrite(pyostream.attr("write")), pyflush(pyostream.attr("flush"))
+	    : buf_size(buffer_size)
+	    , d_buffer(new char[buf_size])
+	    , pywrite(pyostream.attr("write"))
+	    , pyflush(pyostream.attr("flush"))
 	{
 		setp(d_buffer.get(), d_buffer.get() + buf_size - 1);
 	}

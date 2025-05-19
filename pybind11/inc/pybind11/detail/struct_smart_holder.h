@@ -89,8 +89,10 @@ struct guarded_delete
 	bool use_del_fun;
 	bool armed_flag;
 	guarded_delete(std::function<void(void *)> &&del_fun, bool armed_flag)
-	    : del_fun{std::move(del_fun)}, del_ptr{nullptr}, use_del_fun{true},
-	      armed_flag{armed_flag}
+	    : del_fun{std::move(del_fun)}
+	    , del_ptr{nullptr}
+	    , use_del_fun{true}
+	    , armed_flag{armed_flag}
 	{
 	}
 	guarded_delete(void (*del_ptr)(void *), bool armed_flag)
@@ -176,10 +178,11 @@ struct smart_holder
 	smart_holder &operator=(const smart_holder &) = delete;
 
 	smart_holder()
-	    : vptr_is_using_noop_deleter{false},
-	      vptr_is_using_builtin_delete{false},
-	      vptr_is_external_shared_ptr{false}, is_populated{false},
-	      is_disowned{false}
+	    : vptr_is_using_noop_deleter{false}
+	    , vptr_is_using_builtin_delete{false}
+	    , vptr_is_external_shared_ptr{false}
+	    , is_populated{false}
+	    , is_disowned{false}
 	{
 	}
 

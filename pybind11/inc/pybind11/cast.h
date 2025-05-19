@@ -2351,13 +2351,12 @@ struct arg_v : arg
 private:
 	template <typename T>
 	arg_v(arg &&base, T &&x, const char *descr = nullptr)
-	    : arg(base),
-	      value(reinterpret_steal<object>(detail::make_caster<T>::cast(
-	          std::forward<T>(x), return_value_policy::automatic, {}))),
-	      descr(descr)
+	    : arg(base)
+	    , value(reinterpret_steal<object>(detail::make_caster<T>::cast(
+	          std::forward<T>(x), return_value_policy::automatic, {})))
+	    , descr(descr)
 #if defined(PYBIND11_DETAILED_ERROR_MESSAGES)
-	      ,
-	      type(type_id<T>())
+	    , type(type_id<T>())
 #endif
 	{
 		// Workaround! See:

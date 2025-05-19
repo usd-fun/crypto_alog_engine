@@ -70,9 +70,14 @@ struct buffer_info
 	            ssize_t ndim, detail::any_container<ssize_t> shape_in,
 	            detail::any_container<ssize_t> strides_in,
 	            bool readonly = false)
-	    : ptr(ptr), itemsize(itemsize), size(1), format(format), ndim(ndim),
-	      shape(std::move(shape_in)), strides(std::move(strides_in)),
-	      readonly(readonly)
+	    : ptr(ptr)
+	    , itemsize(itemsize)
+	    , size(1)
+	    , format(format)
+	    , ndim(ndim)
+	    , shape(std::move(shape_in))
+	    , strides(std::move(strides_in))
+	    , readonly(readonly)
 	{
 		if (ndim != (ssize_t)shape.size() || ndim != (ssize_t)strides.size())
 		{

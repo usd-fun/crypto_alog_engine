@@ -30,12 +30,15 @@ public:
 	native_enum_data(const object &parent_scope, const char *enum_name,
 	                 const char *native_type_name, const char *class_doc,
 	                 const std::type_index &enum_type_index)
-	    : enum_name_encoded{enum_name},
-	      native_type_name_encoded{native_type_name},
-	      enum_type_index{enum_type_index}, parent_scope(parent_scope),
-	      enum_name{enum_name}, native_type_name{native_type_name},
-	      class_doc(class_doc), export_values_flag{false},
-	      finalize_needed{false}
+	    : enum_name_encoded{enum_name}
+	    , native_type_name_encoded{native_type_name}
+	    , enum_type_index{enum_type_index}
+	    , parent_scope(parent_scope)
+	    , enum_name{enum_name}
+	    , native_type_name{native_type_name}
+	    , class_doc(class_doc)
+	    , export_values_flag{false}
+	    , finalize_needed{false}
 	{
 	}
 

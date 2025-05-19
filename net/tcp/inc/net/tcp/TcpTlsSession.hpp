@@ -25,13 +25,28 @@ namespace net
 		class TcpTlsSession
 		{
 		public:
+			enum class TcpSessionStatus : unsigned int
+			{
+				SESSION_DISCONNECTED = 0,
+				SESSION_SOCKET_CONNECTING = 1,
+				SESSION_TSL_CONNECTING = 2,
+				SESSION_CONNECTED = 3
+			};
+
 		public:
 			TcpTlsSession(std::size_t read_buffer_size = 1048576,
 			              std::size_t write_buffer_size = 1048576,
 			              bool auto_connect = true)
-			    : _ctx(nullptr), _ssl(nullptr), _read_buffer(), _write_buffer(),
-			      _hostname(""), _port(0), _socket_fd(-1), _connected(false),
-			      _auto_connect(auto_connect)
+			    : _ctx(nullptr)
+			    , _ssl(nullptr)
+			    , _read_buffer()
+			    , _write_buffer()
+			    , _hostname("")
+			    , _status(TcpSessionStatus::SESSION_DISCONNECTED)
+			    , _port(0)
+			    , _socket_fd(-1)
+			    , _connected(false)
+			    , _auto_connect(auto_connect)
 			{
 				SSL_library_init();
 				OpenSSL_add_all_algorithms();
@@ -173,6 +188,7 @@ namespace net
 			std::vector<char> _read_buffer;
 			std::vector<char> _write_buffer;
 			std::string _hostname;
+			TcpSessionStatus _status;
 			int _port;
 			int _socket_fd;
 			bool _connected;

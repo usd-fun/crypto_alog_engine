@@ -237,9 +237,15 @@ struct argument_record
 struct function_record
 {
 	function_record()
-	    : is_constructor(false), is_new_style_constructor(false),
-	      is_stateless(false), is_operator(false), is_method(false),
-	      is_setter(false), has_args(false), has_kwargs(false), prepend(false)
+	    : is_constructor(false)
+	    , is_new_style_constructor(false)
+	    , is_stateless(false)
+	    , is_operator(false)
+	    , is_method(false)
+	    , is_setter(false)
+	    , has_args(false)
+	    , has_kwargs(false)
+	    , prepend(false)
 	{
 	}
 
@@ -332,9 +338,12 @@ struct function_record
 struct type_record
 {
 	PYBIND11_NOINLINE type_record()
-	    : multiple_inheritance(false), dynamic_attr(false),
-	      buffer_protocol(false), module_local(false), is_final(false),
-	      release_gil_before_calling_cpp_dtor(false)
+	    : multiple_inheritance(false)
+	    , dynamic_attr(false)
+	    , buffer_protocol(false)
+	    , module_local(false)
+	    , is_final(false)
+	    , release_gil_before_calling_cpp_dtor(false)
 	{
 	}
 

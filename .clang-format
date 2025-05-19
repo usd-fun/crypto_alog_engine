@@ -1,5 +1,7 @@
 BasedOnStyle: LLVM
 AccessModifierOffset: -4
+ConstructorInitializerAllOnOneLineOrOnePerLine: true
+BreakConstructorInitializers: BeforeComma
 UseTab: ForIndentation
 IndentWidth: 4
 TabWidth: 4

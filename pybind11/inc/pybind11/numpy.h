@@ -620,8 +620,10 @@ protected:
 	template <bool Dyn = Dynamic>
 	unchecked_reference(const void *data, const ssize_t *shape,
 	                    const ssize_t *strides, enable_if_t<Dyn, ssize_t> dims)
-	    : data_{reinterpret_cast<const unsigned char *>(data)}, shape_{shape},
-	      strides_{strides}, dims_{dims}
+	    : data_{reinterpret_cast<const unsigned char *>(data)}
+	    , shape_{shape}
+	    , strides_{strides}
+	    , dims_{dims}
 	{
 	}
 
@@ -934,8 +936,9 @@ private:
 			pybind11::int_ offset;
 			field_descr(pybind11::str &&name, object &&format,
 			            pybind11::int_ &&offset)
-			    : name{std::move(name)}, format{std::move(format)},
-			      offset{std::move(offset)} {};
+			    : name{std::move(name)}
+			    , format{std::move(format)}
+			    , offset{std::move(offset)} {};
 		};
 		auto field_dict = attr("fields").cast<dict>();
 		std::vector<field_descr> field_descriptors;

@@ -452,8 +452,8 @@ struct factory<CFunc, AFunc, CReturn(CArgs...), AReturn(AArgs...)>
 	remove_reference_t<AFunc> alias_factory;
 
 	factory(CFunc &&c, AFunc &&a)
-	    : class_factory(std::forward<CFunc>(c)),
-	      alias_factory(std::forward<AFunc>(a))
+	    : class_factory(std::forward<CFunc>(c))
+	    , alias_factory(std::forward<AFunc>(a))
 	{
 	}
 
